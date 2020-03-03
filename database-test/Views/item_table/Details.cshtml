@@ -1,0 +1,27 @@
+﻿@model database_test.Models.item_table
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>item_table</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.trader_index.firstname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.trader_index.firstname)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.itemname }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

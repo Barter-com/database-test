@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MYFIRSTModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="item table">
+          <Key>
+            <PropertyRef Name="itemname" />
+          </Key>
+          <Property Name="itemname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="itemownerID" Type="int" />
+        </EntityType>
+        <EntityType Name="trader index">
+          <Key>
+            <PropertyRef Name="traderID" />
+          </Key>
+          <Property Name="traderID" Type="int" Nullable="false" />
+          <Property Name="firstname" Type="varchar" MaxLength="50" />
+          <Property Name="lastname" Type="varchar" MaxLength="50" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_item table_trader index">
+          <End Role="trader index" Type="Self.trader index" Multiplicity="0..1" />
+          <End Role="item table" Type="Self.item table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="trader index">
+              <PropertyRef Name="traderID" />
+            </Principal>
+            <Dependent Role="item table">
+              <PropertyRef Name="itemownerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MYFIRSTModelStoreContainer">
+          <EntitySet Name="item table" EntityType="Self.item table" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="trader index" EntityType="Self.trader index" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_item table_trader index" Association="Self.FK_item table_trader index">
+            <End Role="trader index" EntitySet="trader index" />
+            <End Role="item table" EntitySet="item table" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MYFIRSTModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="item_table">
+          <Key>
+            <PropertyRef Name="itemname" />
+          </Key>
+          <Property Name="itemname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="itemownerID" Type="Int32" />
+          <NavigationProperty Name="trader_index" Relationship="Self.FK_item_table_trader_index" FromRole="item_table" ToRole="trader_index" />
+        </EntityType>
+        <EntityType Name="trader_index">
+          <Key>
+            <PropertyRef Name="traderID" />
+          </Key>
+          <Property Name="traderID" Type="Int32" Nullable="false" />
+          <Property Name="firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="item_table" Relationship="Self.FK_item_table_trader_index" FromRole="trader_index" ToRole="item_table" />
+        </EntityType>
+        <Association Name="FK_item_table_trader_index">
+          <End Role="trader_index" Type="Self.trader_index" Multiplicity="0..1" />
+          <End Role="item_table" Type="Self.item_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="trader_index">
+              <PropertyRef Name="traderID" />
+            </Principal>
+            <Dependent Role="item_table">
+              <PropertyRef Name="itemownerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MYFIRSTEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="item_tables" EntityType="Self.item_table" />
+          <EntitySet Name="trader_indices" EntityType="Self.trader_index" />
+          <AssociationSet Name="FK_item_table_trader_index" Association="Self.FK_item_table_trader_index">
+            <End Role="trader_index" EntitySet="trader_indices" />
+            <End Role="item_table" EntitySet="item_tables" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MYFIRSTModelStoreContainer" CdmEntityContainer="MYFIRSTEntities">
+          <EntitySetMapping Name="item_tables">
+            <EntityTypeMapping TypeName="MYFIRSTModel.item_table">
+              <MappingFragment StoreEntitySet="item table">
+                <ScalarProperty Name="itemname" ColumnName="itemname" />
+                <ScalarProperty Name="itemownerID" ColumnName="itemownerID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="trader_indices">
+            <EntityTypeMapping TypeName="MYFIRSTModel.trader_index">
+              <MappingFragment StoreEntitySet="trader index">
+                <ScalarProperty Name="traderID" ColumnName="traderID" />
+                <ScalarProperty Name="firstname" ColumnName="firstname" />
+                <ScalarProperty Name="lastname" ColumnName="lastname" />
+                <ScalarProperty Name="email" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
